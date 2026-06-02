@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Твой приз ✨</title>
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-grey: #86868b;
+            --gold: #d4af37;
+            --envelope-color: #ffffff;
+            --envelope-border: #e8e8ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .certificate {
+            background: #ffffff;
+            max-width: 650px;
+            width: 100%;
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.03);
+            animation: cardAppear 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* --- ANIMAÇÃO DA CARTA MINIMALISTA --- */
+        .envelope-container {
+            width: 100px;
+            height: 70px;
+            margin: 0 auto 30px auto;
+            position: relative;
+            background: var(--envelope-color);
+            border: 2px solid var(--envelope-border);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.04);
+            animation: floatEnvelope 3s ease-in-out infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease;
+        }
+
+        /* Linhas da dobra da carta */
+        .envelope-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, transparent 48%, var(--envelope-border) 50%, transparent 52%),
+                linear-gradient(225deg, transparent 48%, var(--envelope-border) 50%, transparent 52%);
+            background-size: 100% 100%;
+            border-radius: 6px;
+            z-index: 1;
+        }
+
+        /* Selo de coração na carta */
+        .heart-seal {
+            font-size: 20px;
+            color: #ff3b30;
+            z-index: 2;
+            position: absolute;
+            top: 40%;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes floatEnvelope {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        .opened-envelope {
+            transform: scale(1.1);
+        }
+
+        /* --- ESTILIZAÇÃO DO TEXTO EM RUSSO --- */
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+        }
+
+        .badge {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold);
+            margin-bottom: 35px;
+            display: inline-block;
+        }
+
+        .story-container {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #333336;
+            text-align: left;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .story-p {
+            margin-bottom: 20px;
+            text-indent: 15px;
+        }
+
+        .story-p-highlight {
+            font-weight: 500;
+            color: var(--apple-blue);
+        }
+
+        /* --- BOTÃO DE TOQUE FINAL --- */
+        .btn-finish {
+            background-color: var(--apple-blue);
+            color: white;
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 980px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-finish:hover {
+            background-color: #0077ed;
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 113, 227, 0.2);
+        }
+
+        /* Canvas para Confetes */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="certificate" style="z-index: 2;">
+        
+        <!-- Animação da Carta Flutuante -->
+        <div class="envelope-container" id="envelope">
+            <div class="heart-seal" id="seal">❤️</div>
+        </div>
+
+        <h1>Международная любовь</h1>
+        <span class="badge">Глава I</span>
+
+        <!-- História Traduzida Integrada -->
+        <div class="story-container">
+            <p class="story-p">Существуют ли родственные души? Если да, то почему моя оказалась на другом конце света? Ответ прост: потому что так надо.</p>
+            
+            <p class="story-p">От одного клика по случайному профилю до уведомления о сообщении, которое больше всего радует мой день — жизнь всё-таки забавная штука. Ты постепенно занимала всё больше места в моей жизни, в моих мыслях, а сегодня ты уже живёшь в моём сердце. Смешно, жизнь порой комична, но в данном случае это совсем не трагедия. Тот, кто писал эту историю любви, явно подумал: «А помещу-ка я их в противоположные полушария планеты, просто ради шутки».</p>
+            
+            <p class="story-p">Иногда я привык говорить о себе в третьем лице, но на этот раз я скажу в третьем лице о ней. Забавно: веселый бразилец влюбился в русскую славянку, которая родилась в Казахстане и чьё имя означает «Подарок». Думаю, именно такой подарок я и хотел получить в своей жизни. Ей понравилась моя внешность, она посчитала меня «эксцентричным», а я теперь учу русский язык только ради неё (дорогой читатель, раньше я знал всего одно русское слово — «привет»). Что-то в этом «самом славянском в мире лице» меня просто очаровывает.</p>
+            
+            <p class="story-p story-p-highlight">Я мог бы часами говорить о ней, но пожалею время тех, кто это читает. Я мог бы продолжить писать эту историю прямо сейчас, но следующая глава называется «Встреча». Дорогой читатель (или читательница), ждите следующую главу — совсем скоро она будет написана и опубликована. И да, я гарантирую: это будет волнующая, волшебная и прекрасная история, которую теперь буду писать не я один. Её будут писать два человека...</p>
+        </div>
+
+        <button class="btn-finish" onclick="abrirCarta()">Нажми сюда</button>
+    </div>
+
+    <script>
+        // Efeito ao clicar no botão final
+        function abrirCarta() {
+            const envelope = document.getElementById('envelope');
+            const seal = document.getElementById('seal');
+            
+            envelope.classList.add('opened-envelope');
+            seal.innerText = "✨";
+            seal.style.transform = "scale(1.5)";
+            
+            alert(' (Жди продолжения...)');
+        }
+
+        // Sistema de Confetes Animados estilo iOS
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const colors = ['#0071e3', '#34c759', '#ff3b30', '#ffcc00', '#af52de'];
+        const confettis = Array.from({ length: 80 }).map(() => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * canvas.height,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            tilt: Math.random() * 10 - 5,
+            tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+            tiltAngle: 0
+        }));
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            confettis.forEach((p) => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.x += Math.sin(p.tiltAngle);
+                p.tilt = Math.sin(p.tiltAngle - p.r/2) * 15;
+
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r/2, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/2);
+                ctx.stroke();
+
+                if (p.y > canvas.height) {
+                    p.x = Math.random() * canvas.width;
+                    p.y = -20;
+                }
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        // Inicia os confetes de celebração
+        setTimeout(draw, 300);
+    </script>
+</body>
+</html>
