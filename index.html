@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сюрприз для тебя</title>
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-grey: #86868b;
+            --bear-color: #8B5A2B;
+            --bear-dark: #6E4720;
+            --bear-light: #A06D3B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 90vw;
+            z-index: 10;
+        }
+
+        /* --- URSO ULTRA DETALHADO --- */
+        .bear-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px auto;
+            position: relative;
+        }
+
+        .bear-head {
+            width: 130px;
+            height: 120px;
+            background: var(--bear-color);
+            border-radius: 50% 50% 45% 45%;
+            position: absolute;
+            bottom: 10px;
+            left: 25px;
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.1), 
+                inset -8px -10px 0px var(--bear-dark),
+                inset 5px 5px 0px var(--bear-light);
+            transition: background 0.3s;
+        }
+
+        .ear {
+            width: 45px;
+            height: 45px;
+            background: var(--bear-color);
+            border-radius: 50%;
+            position: absolute;
+            z-index: -1;
+            box-shadow: inset -4px -4px 0px var(--bear-dark);
+        }
+        .ear.left { top: 5px; left: 15px; }
+        .ear.right { top: 5px; right: 15px; }
+        .ear::after {
+            content: '';
+            width: 26px;
+            height: 26px;
+            background: #f19ead;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0.8;
+        }
+
+        /* Sobrancelhas Expressivas */
+        .brow {
+            width: 25px;
+            height: 6px;
+            background: var(--bear-dark);
+            position: absolute;
+            top: 30px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .brow.left { left: 25px; transform: rotate(-5deg); }
+        .brow.right { right: 25px; transform: rotate(5deg); }
+
+        .eye-socket {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .eye-socket.left { left: 28px; }
+        .eye-socket.right { right: 28px; }
+
+        .pupil {
+            width: 15px;
+            height: 15px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            position: relative;
+        }
+        .pupil::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        .blush {
+            width: 22px;
+            height: 12px;
+            background: rgba(255, 105, 180, 0.3);
+            border-radius: 50%;
+            position: absolute;
+            top: 70px;
+            filter: blur(2px);
+            transition: background 0.3s;
+        }
+        .blush.left { left: 15px; }
+        .blush.right { right: 15px; }
+
+        .snout {
+            width: 58px;
+            height: 45px;
+            background: #F5DEB3;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 12px;
+            left: 36px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nose {
+            width: 22px;
+            height: 14px;
+            background: #231f20;
+            border-radius: 40% 40% 50% 50%;
+            position: absolute;
+            top: 8px;
+            left: 18px;
+        }
+
+        /* --- ESTADO BRAVO (CSS) --- */
+        .is-angry .brow.left { transform: rotate(20deg) translateY(5px); }
+        .is-angry .brow.right { transform: rotate(-20deg) translateY(5px); }
+        .is-angry .blush { background: rgba(255, 0, 0, 0.6); filter: blur(4px); }
+
+        /* --- BOTÕES --- */
+        h1 { font-size: 38px; font-weight: 600; margin-bottom: 10px; letter-spacing: -1px; }
+        p { font-size: 20px; color: var(--apple-grey); margin-bottom: 40px; }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 980px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-sim { background: var(--apple-blue); color: white; }
+        .btn-sim:hover { background: #0077ed; transform: scale(1.05); }
+
+        .btn-nao { background: #e8e8ed; color: var(--apple-text); position: relative; }
+    </style>
+</head>
+<body id="body">
+
+    <div class="container">
+        <div class="bear-container" id="bear">
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="bear-head">
+                <div class="brow left"></div>
+                <div class="brow right"></div>
+                <div class="eye-socket left">
+                    <div class="pupil" id="p-l"></div>
+                </div>
+                <div class="eye-socket right">
+                    <div class="pupil" id="p-r"></div>
+                </div>
+                <div class="blush left"></div>
+                <div class="blush right"></div>
+                <div class="snout">
+                    <div class="nose"></div>
+                </div>
+            </div>
+        </div>
+
+        <h1>Вы любопытны?</h1>
+        <p>Вы уверены, что хотите увидеть то, что я для вас подготовил.....?</p>
+        
+        <div class="btn-container">
+            <button class="btn btn-sim" onclick="redirecionar()">ДА</button>
+            <button class="btn btn-nao" id="btn-nao">НЕТ</button>
+        </div>
+    </div>
+
+    <script>
+        const btnNao = document.getElementById('btn-nao');
+        const bear = document.getElementById('bear');
+        const pupils = document.querySelectorAll('.pupil');
+
+        // Redirecionamento ao clicar no Sim
+        function redirecionar() {
+            // Substitua o link abaixo pela página que você quer abrir
+            window.location.href = "main.html"; 
+        }
+
+        // Olhos seguindo mouse/toque
+        function moverOlhos(x, y) {
+            pupils.forEach(pupil => {
+                const rect = pupil.getBoundingClientRect();
+                const pX = rect.left + rect.width / 2;
+                const pY = rect.top + rect.height / 2;
+                const rad = Math.atan2(x - pX, y - pY);
+                const dist = Math.min(6, Math.hypot(x - pX, y - pY) / 20);
+                pupil.style.transform = `translate(${dist * Math.sin(rad)}px, ${dist * Math.cos(rad)}px)`;
+            });
+        }
+
+        window.addEventListener('mousemove', (e) => moverOlhos(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => moverOlhos(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
+
+        // Botão Não foge e deixa o urso bravo
+        function fugir() {
+            bear.classList.add('is-angry'); // Urso fica bravo
+            
+            const btnRect = btnNao.getBoundingClientRect();
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+
+            // Volta a ficar calmo depois de 2 segundos
+            setTimeout(() => {
+                bear.classList.remove('is-angry');
+            }, 2000);
+        }
+
+        btnNao.addEventListener('mouseover', fugir);
+        btnNao.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            fugir();
+        });
+
+        // Se clicar no Não (caso ela consiga), ele fica muito bravo
+        btnNao.addEventListener('click', () => {
+            bear.classList.add('is-angry');
+            alert("НЕТ! 😡"); 
+        });
+    </script>
+</body>
+</html>
