@@ -1,0 +1,190 @@
+	<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия и положения Apple Bear</title>
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-green: #34c759;
+            --apple-red: #ff3b30;
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-grey: #86868b;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            max-width: 550px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--apple-grey);
+            margin-bottom: 30px;
+        }
+
+        /* --- LISTA DE TERMOS --- */
+        .terms-list {
+            text-align: left;
+            margin-bottom: 35px;
+        }
+
+        .term-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 18px;
+            border-bottom: 1px solid #e8e8ed;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 10px;
+        }
+
+        .term-item:hover {
+            background: #fafafa;
+        }
+
+        /* Customizando o Checkbox estilo iOS */
+        .term-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--apple-blue);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .term-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: #333336;
+        }
+
+        /* --- BOTÃO DINÂMICO --- */
+        .btn-wrapper {
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 500;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            cursor: not-allowed;
+            background-color: var(--apple-red);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Classe ativa quando tudo for marcado */
+        .btn-submit.ready {
+            background-color: var(--apple-green);
+            cursor: pointer;
+        }
+
+        .btn-submit.ready:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">🐻</div>
+        <h1>Положения и условия</h1>
+        <p class="subtitle">Пожалуйста, подтвердите пункты ниже, чтобы продолжить</p>
+
+        <div class="terms-list">
+            <!-- Cláusula 1: Rir da mensagem -->
+            <label class="term-item">
+                <input type="checkbox" class="term-checkbox" onchange="verificarTermos()">
+                <span class="term-text">Я обязуюсь искренне посмеяться (или хотя бы улыбнуться) над этим сообщением.</span>
+            </label>
+
+            <!-- Cláusula 2: Deixar ganhar no baralho -->
+            <label class="term-item">
+                <input type="checkbox" class="term-checkbox" onchange="verificarTermos()">
+                <span class="term-text">Я обещаю иногда позволять тебе обыгрывать меня и моего папу в карты.</span>
+            </label>
+
+            <!-- Cláusula 3: Lobo cinzento (Cultura Russa) -->
+            <label class="term-item">
+                <input type="checkbox" class="term-checkbox" onchange="verificarTermos()">
+                <span class="term-text">Я согласна никогда не ложиться на самый край кровати, чтобы серый волчок не пришёл и не укусил за бочок.</span>
+            </label>
+        </div>
+
+        <div class="btn-wrapper">
+            <button id="btn-action" class="btn-submit" onclick="proximaPagina()">Примите условия</button>
+        </div>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.term-checkbox');
+        const btnAction = document.getElementById('btn-action');
+
+        function verificarTermos() {
+            // Verifica se TODOS os checkboxes foram marcados
+            const todosMarcados = Array.from(checkboxes).every(cb => cb.checked);
+
+            if (todosMarcados) {
+                btnAction.classList.add('ready');
+                btnAction.innerText = "Я согласна, хочу свой приз! ✨";
+            } else {
+                btnAction.classList.remove('ready');
+                btnAction.innerText = "Примите условия";
+            }
+        }
+
+        function proximaPagina() {
+            // Só redireciona se a classe 'ready' estiver ativa (botão verde)
+            if (btnAction.classList.contains('ready')) {
+                // Aqui você pode mudar para a próxima página do seu plano (ex: "prize.html")
+                window.location.href = "prize.html"; 
+            }
+        }
+    </script>
+</body>
+</html>
